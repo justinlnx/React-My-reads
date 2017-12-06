@@ -12,26 +12,47 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     showSearchPage: false,
-    currentlyReading: [],
-    WantToRead: [],
-    Read: [],
+    // currentlyReading: [],
+    // WantToRead: [],
+    // Read: [],
+    books: [],
   }
 
   componentDidMount() {
-    BooksAPI.getAll().then(response => {
-      var cr = response.filter(x => x.shelf === 'currentlyReading');
-      var wtr = response.filter(x => x.shelf === 'wantToRead');
-      var r = response.filter(x => x.shelf === 'read');
-      this.setState({ 
-        currentlyReading: cr,
-        wantToRead: wtr,
-        read: r
-      });
+    BooksAPI.getAll().then(books => {
+      console.log('api');
+      // var cr = response.filter(x => x.shelf === 'currentlyReading');
+      // var wtr = response.filter(x => x.shelf === 'wantToRead');
+      // var r = response.filter(x => x.shelf === 'read');
+      // this.setState({ 
+      //   currentlyReading: cr,
+      //   wantToRead: wtr,
+      //   read: r
+      // });
+      this.setState({ books });
     })
   }
 
   render() {
-    console.log('books state: ', this.state.books);
+    // console.log('books state: ', this.state.currentlyReading);
+    // console.log('books state: ', this.state.wantToRead);
+    // console.log('books state: ', this.state.read);
+    console.log('book state ', this.state.books);
+    const items = [
+      {
+        title: 'Currently Reading',
+        books: this.state.books.filter(x => x.shelf === 'currentlyReading')
+      },
+      {
+        title: 'Want To Read',
+        books: this.state.books.filter(x => x.shelf === 'wantToRead')
+      },
+      {
+        title: 'Read',
+        books: this.state.books.filter(x => x.shelf === 'read')
+      },
+    ]
+    console.log('items ', items);
     return (
       <div className="app">
         {this.state.showSearchPage ? (
@@ -61,75 +82,12 @@ class BooksApp extends React.Component {
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
-              <div>
-                <BookShelf shelfTitle={'Currently Reading'}
-                          books={this.state.currentlyReading} />
-              </div>
-              <div>
-              <BookShelf shelfTitle={'Want To Read'} 
-                          books={this.state.wantToRead} />
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Read</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                      <li>
-                        <div className="book">
-                          <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: 'url("http://books.google.com/books/content?id=pD6arNyKyi8C&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE70Rw0CCwNZh0SsYpQTkMbvz23npqWeUoJvVbi_gXla2m2ie_ReMWPl0xoU8Quy9fk0Zhb3szmwe8cTe4k7DAbfQ45FEzr9T7Lk0XhVpEPBvwUAztOBJ6Y0QPZylo4VbB7K5iRSk&source=gbs_api")' }}></div>
-                            <div className="book-shelf-changer">
-                              <select>
-                                <option value="none" disabled>Move to...</option>
-                                <option value="currentlyReading">Currently Reading</option>
-                                <option value="wantToRead">Want to Read</option>
-                                <option value="read">Read</option>
-                                <option value="none">None</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div className="book-title">The Hobbit</div>
-                          <div className="book-authors">J.R.R. Tolkien</div>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="book">
-                          <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 174, backgroundImage: 'url("http://books.google.com/books/content?id=1q_xAwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE712CA0cBYP8VKbEcIVEuFJRdX1k30rjLM29Y-dw_qU1urEZ2cQ42La3Jkw6KmzMmXIoLTr50SWTpw6VOGq1leINsnTdLc_S5a5sn9Hao2t5YT7Ax1RqtQDiPNHIyXP46Rrw3aL8&source=gbs_api")' }}></div>
-                            <div className="book-shelf-changer">
-                              <select>
-                                <option value="none" disabled>Move to...</option>
-                                <option value="currentlyReading">Currently Reading</option>
-                                <option value="wantToRead">Want to Read</option>
-                                <option value="read">Read</option>
-                                <option value="none">None</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div className="book-title">Oh, the Places You'll Go!</div>
-                          <div className="book-authors">Seuss</div>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="book">
-                          <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: 'url("http://books.google.com/books/content?id=32haAAAAMAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72yckZ5f5bDFVIf7BGPbjA0KYYtlQ__nWB-hI_YZmZ-fScYwFy4O_fWOcPwf-pgv3pPQNJP_sT5J_xOUciD8WaKmevh1rUR-1jk7g1aCD_KeJaOpjVu0cm_11BBIUXdxbFkVMdi&source=gbs_api")' }}></div>
-                            <div className="book-shelf-changer">
-                              <select>
-                                <option value="none" disabled>Move to...</option>
-                                <option value="currentlyReading">Currently Reading</option>
-                                <option value="wantToRead">Want to Read</option>
-                                <option value="read">Read</option>
-                                <option value="none">None</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div className="book-title">The Adventures of Tom Sawyer</div>
-                          <div className="book-authors">Mark Twain</div>
-                        </div>
-                      </li>
-                    </ol>
-                  </div>
-                </div>
-              </div>
+              {items.map((item, index) => (
+                <BookShelf 
+                  key={index}
+                  shelfTitle={item.title}
+                  books={item.books} />
+              ))}
             </div>
             <div className="open-search">
               <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
