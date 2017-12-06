@@ -12,32 +12,16 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     showSearchPage: false,
-    // currentlyReading: [],
-    // WantToRead: [],
-    // Read: [],
     books: [],
   }
 
   componentDidMount() {
     BooksAPI.getAll().then(books => {
-      console.log('api');
-      // var cr = response.filter(x => x.shelf === 'currentlyReading');
-      // var wtr = response.filter(x => x.shelf === 'wantToRead');
-      // var r = response.filter(x => x.shelf === 'read');
-      // this.setState({ 
-      //   currentlyReading: cr,
-      //   wantToRead: wtr,
-      //   read: r
-      // });
       this.setState({ books });
     })
   }
 
   render() {
-    // console.log('books state: ', this.state.currentlyReading);
-    // console.log('books state: ', this.state.wantToRead);
-    // console.log('books state: ', this.state.read);
-    console.log('book state ', this.state.books);
     const items = [
       {
         title: 'Currently Reading',
@@ -52,7 +36,7 @@ class BooksApp extends React.Component {
         books: this.state.books.filter(x => x.shelf === 'read')
       },
     ]
-    console.log('items ', items);
+
     return (
       <div className="app">
         {this.state.showSearchPage ? (
