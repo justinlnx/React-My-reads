@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { SHELF } from './constant';
 
 class BookShelf extends Component {
-  handleOnClick = (book, event) => {
+  handleOnChange = (book, event) => {
+    this.setState({
+      selected: event.target.value
+    });
     return this.props.onRelocateBook(book, event.target.value);
   }
 
@@ -26,7 +29,9 @@ class BookShelf extends Component {
                           }>
                         </div>
                         <div className="book-shelf-changer">
-                          <select onClick={this.handleOnClick.bind(this, book)}>
+                          <select
+                            value={book.shelf}
+                            onChange={this.handleOnChange.bind(this, book)}>
                             <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">{SHELF.CURRENTLY_READING}</option>
                             <option value="wantToRead">{SHELF.WANT_TO_READ}</option>
