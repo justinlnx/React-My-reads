@@ -3,9 +3,6 @@ import { SHELF } from './constant';
 
 class BookShelf extends Component {
   handleOnChange = (book, event) => {
-    this.setState({
-      selected: event.target.value
-    });
     return this.props.onRelocateBook(book, event.target.value);
   }
 
@@ -14,7 +11,7 @@ class BookShelf extends Component {
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{shelfTitle}</h2>
-        {books.length !== 0 && (
+        {books && books.length !== 0 && (
           <div className="bookshelf-books">
             <ol className="books-grid">
               {books.map((book) => (
@@ -24,7 +21,7 @@ class BookShelf extends Component {
                         <div className="book-cover"
                           style={
                             { width: 128, height: 193,
-                              backgroundImage: `url(${book.imageLinks.smallThumbnail})` 
+                              backgroundImage: `url(${book.imageLinks ? book.imageLinks.smallThumbnail : ''})` 
                             }
                           }>
                         </div>
@@ -41,7 +38,7 @@ class BookShelf extends Component {
                         </div>
                       </div>
                       <div className="book-title">{book.title}</div>
-                      {book.authors.map((author, index) => (
+                      {book.authors && book.authors.map((author, index) => (
                         <div className="book-authors" key={index}>{author}</div>
                       ))}
                     </div>
