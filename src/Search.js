@@ -12,15 +12,17 @@ class Search extends Component {
   updateQuery = (query) => {
     if (query) {
       BooksAPI.search(query).then(res => {
-        this.props.userBooks.map(userBook => {
-          var book = res.find(item => {
-            return item.id === userBook.id;
+        if (!res.error) {
+          this.props.userBooks.map(userBook => {
+            var book = res.find(item => {
+              return item.id === userBook.id;
+            });
+            if (book !== undefined) {
+              book['shelf'] = userBook.shelf;
+            }
+            return userBook;
           });
-          if (book !== undefined) {
-            book['shelf'] = userBook.shelf;
-          }
-          return userBook;
-        });
+        }
 
         this.setState({
           query: query,
@@ -65,10 +67,10 @@ class Search extends Component {
           <Link className="close-search" to='/'>Close</Link>
           <div className="search-books-input-wrapper">
             <input
-              type="text"
-              placeholder="Search by title or author"
-              value={query}
-              onChange={(event) => this.updateQuery(event.target.value)}/>
+                type="text"
+                placeholder="Search by title or author"
+                value={query}
+                onChange={(event) => this.updateQuery(event.target.value)}/>
           </div>
         </div>
         <div className="search-books-results">
