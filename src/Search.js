@@ -11,9 +11,17 @@ class Search extends Component {
 
   updateQuery = (query) => {
     if (query) {
-      console.log(query);
       BooksAPI.search(query).then(res => {
-        console.log(res);
+        this.props.userBooks.map(userBook => {
+          var book = res.find(item => {
+            return item.id === userBook.id;
+          });
+          if (book !== undefined) {
+            book['shelf'] = userBook.shelf;
+          }
+          return userBook;
+        });
+
         this.setState({
           query: query,
           books: res.error ? [] : res,
