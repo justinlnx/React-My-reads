@@ -36,19 +36,19 @@ class BooksApp extends React.Component {
   };
 
   moveBook = (book, shelf) => {
-    var current = this.state.books;
-    var foundBook = current.find((value) => {
-      return value.id === book.id
-    });
-    if (foundBook !== undefined) {
-      foundBook.shelf = shelf;
-    } else {
-      book['shelf'] = shelf;
-      current.push(book);
-    }
+    BooksAPI.update(book, shelf).then(books => {
+      var current = this.state.books;
+      var foundBook = current.find(b => {
+        return b.id === book.id;
+      });
+      if (foundBook !== undefined) {
+        foundBook.shelf = shelf;
+      } else {
+        book['shelf'] = shelf;
+        current.push(book);
+      }
 
-    this.setState({
-      books: current
+      this.setState({ books: current });
     });
   };
   
