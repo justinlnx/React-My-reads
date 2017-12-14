@@ -37,12 +37,6 @@ class Search extends Component {
     }
   };
 
-  clearQuery = () => {
-    this.setState({
-      query: ''
-    });
-  };
-
   moveBook = (book, shelf) => {
     this.props.onRelocateBook(book, shelf);
     var current = this.state.books;
